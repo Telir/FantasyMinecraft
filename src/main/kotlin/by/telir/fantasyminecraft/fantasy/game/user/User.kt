@@ -4,9 +4,9 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.GameAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.DotaModifier.*
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.OperationType
-import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.*
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
@@ -23,9 +23,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.round
+import kotlin.math.*
 
 data class User(val uuid: UUID) {
 
@@ -57,7 +55,6 @@ data class User(val uuid: UUID) {
         updateDotaAttributes()
         updateMinecraftAttributes()
     }
-
     private fun updateHero() {
         if (hero == null) return
         properties.putAll(hero!!.properties)
@@ -106,16 +103,15 @@ data class User(val uuid: UUID) {
                                 attributeModifier.amount -= 1
                                 attributes[attributeType]!!.addModifier(attributeModifier)
                             }
-
                             AttributeType.ATTACK_SPEED -> {
                                 val attributeModifier = gameItem.modifiers[attributeType]!!.copy()
                                 attributeModifier.amount -= 4
                                 attributes[attributeType]!!.addModifier(attributeModifier)
                             }
-
                             else -> {}
                         }
-                    } else attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!)
+                    }
+                    else attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!)
                 }
             }
         }
@@ -130,11 +126,8 @@ data class User(val uuid: UUID) {
 
     private fun updateEffects() {
         for (effectType in effects.keys) {
-            effects[effectType]?.forEach { effect ->
-                effect.attributeChanges.keys.forEach {
-                    attributes[it]!!.addModifier(effect.attributeChanges[it]!!)
-                }
-            }
+            effects[effectType]?.forEach { effect -> effect.attributeChanges.keys.forEach {
+                attributes[it]!!.addModifier(effect.attributeChanges[it]!!) } }
         }
     }
 
@@ -357,7 +350,7 @@ data class User(val uuid: UUID) {
 
     val effects = mutableMapOf<EffectType, MutableSet<Effect>>()
 
-    fun getActiveEffects(): Set<Effect> {
+    fun getActiveEffects() : Set<Effect> {
         return effects.values.flatten().toSet()
     }
 

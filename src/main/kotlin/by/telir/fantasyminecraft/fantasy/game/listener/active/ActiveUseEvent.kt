@@ -56,7 +56,6 @@ class ActiveUseEvent : Listener {
                     if (gameItem.itemType == ItemType.CONSUMABLE) user.removeUncheckedItem(gameItem)
                     user.update()
                 }
-
                 ActiveState.NOT_ENOUGH_MANA -> player.sendMessage("Not enough mana!")
                 ActiveState.NOT_ENOUGH_HEALTH -> player.sendMessage("Not enough health!")
                 ActiveState.ON_COOLDOWN -> player.sendMessage(gameItem.actives[activeType]!!.currentCooldown.toString())

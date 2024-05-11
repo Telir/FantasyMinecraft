@@ -1,8 +1,8 @@
 package by.telir.fantasyminecraft.fantasy.game.property.subproperty
 
-import by.telir.fantasyminecraft.fantasy.game.damage.type.DamageType
 import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.damage.type.DamageType
 
 class TrueStrikeProperty(chance: Double) :
     GameProperty(GamePropertyType.TRUE_STRIKE, chance) {

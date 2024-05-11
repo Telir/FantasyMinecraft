@@ -1,6 +1,7 @@
 package by.telir.fantasyminecraft.fantasy.command
 
 import by.telir.fantasyminecraft.fantasy.game.effect.subeffect.BleedingEffect
+import by.telir.fantasyminecraft.fantasy.game.effect.subeffect.SpeedEffect
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

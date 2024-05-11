@@ -7,8 +7,7 @@ import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
 import by.telir.fantasyminecraft.fantasy.game.user.User
 
-class BleedingEffect(user: User, private val duration: Double, private val period: Double) :
-    Effect(EffectType.BLEEDING) {
+class BleedingEffect(user: User, private val duration: Double, private val period: Double) : Effect(EffectType.BLEEDING) {
     var amount = 0.0
     var percent = 0.0
 

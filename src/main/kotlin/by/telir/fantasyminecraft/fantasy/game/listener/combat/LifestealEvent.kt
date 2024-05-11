@@ -8,6 +8,7 @@ import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.LifestealProperty
 import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
+import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -66,10 +67,7 @@ class LifestealEvent : Listener {
             }
         }
         if (healAmount > 0.0) {
-            damager.health += max(
-                healAmount * healAmplifier,
-                AttributeUtil.getValue(damager, MinecraftAttribute.GENERIC_MAX_HEALTH)
-            )
+            damager.health += max(healAmount * healAmplifier, AttributeUtil.getValue(damager, MinecraftAttribute.GENERIC_MAX_HEALTH))
         }
         if (damageAmount > 0.0) {
             DamageDealer(defender).dealDamage(damageAmount, damageType)

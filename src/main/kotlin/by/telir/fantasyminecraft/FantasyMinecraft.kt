@@ -5,11 +5,11 @@ import by.telir.fantasyminecraft.fantasy.command.DebugCommand
 import by.telir.fantasyminecraft.fantasy.command.EffectCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
+import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.DropGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.InventoryDropInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.regen.HealthRegenEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.AntiHungerEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.DropGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.MoveGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.UntouchableItemEvent
 import by.telir.fantasyminecraft.fantasy.game.user.User

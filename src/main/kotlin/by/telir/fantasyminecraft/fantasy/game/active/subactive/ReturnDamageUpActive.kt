@@ -4,7 +4,9 @@ import by.telir.fantasyminecraft.fantasy.game.active.GameActive
 import by.telir.fantasyminecraft.fantasy.game.active.manager.ActiveManager
 import by.telir.fantasyminecraft.fantasy.game.active.state.ActiveState
 import by.telir.fantasyminecraft.fantasy.game.active.type.ActiveType
+import by.telir.fantasyminecraft.fantasy.game.effect.manager.EffectManager
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
+import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.ReturnDamageProperty
 import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.User
