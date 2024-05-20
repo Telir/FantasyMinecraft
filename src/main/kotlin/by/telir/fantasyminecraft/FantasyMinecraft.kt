@@ -1,8 +1,6 @@
 package by.telir.fantasyminecraft
 
 import by.telir.fantasyminecraft.fantasy.command.AttributeCommand
-import by.telir.fantasyminecraft.fantasy.command.DebugCommand
-import by.telir.fantasyminecraft.fantasy.command.EffectCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
 import by.telir.fantasyminecraft.fantasy.game.listener.active.ActiveUseEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
@@ -45,11 +43,9 @@ class FantasyMinecraft : JavaPlugin() {
 
         //region Commands
         executeCommand("rc", ReloadCommand())
-        executeCommand("debug", DebugCommand())
         executeCommand("fly", FlyCommand())
         executeCommand("user", UserCommand())
         executeCommand("attribute", AttributeCommand())
-        executeCommand("geffect", EffectCommand())
         //endregion
 
         //region Plugin events
