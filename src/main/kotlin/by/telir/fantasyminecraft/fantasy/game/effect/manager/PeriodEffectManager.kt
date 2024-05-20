@@ -3,7 +3,6 @@ package by.telir.fantasyminecraft.fantasy.game.effect.manager
 import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
 import by.telir.fantasyminecraft.fantasy.game.user.User
-import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.lang.System.currentTimeMillis
@@ -75,8 +74,8 @@ class PeriodEffectManager(val user: User, val type: PeriodType) {
                         user.health += user.health * percent
                     }
                 }
-                    iterations++
-                    if (maxIterations == iterations) this.cancel()
+                iterations++
+                if (maxIterations == iterations) this.cancel()
 
             }
         }.runTaskTimerAsynchronously(PLUGIN, 0, (period * 20).toLong())

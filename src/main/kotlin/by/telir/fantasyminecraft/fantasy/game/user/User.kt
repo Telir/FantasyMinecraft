@@ -22,6 +22,7 @@ import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.lang.System.currentTimeMillis
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -37,7 +38,6 @@ data class User(val uuid: UUID) {
         set(value) {
             player.health = min(max(0.0, value), attributes[AttributeType.HEALTH]!!.finalValue)
         }
-
 
     var mana: Double = 0.0
         set(value) {
@@ -115,7 +115,7 @@ data class User(val uuid: UUID) {
 
                             else -> {}
                         }
-                    } else attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!)
+                    } else repeat(gameItem.amount) { attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!) }
                 }
             }
         }
@@ -275,31 +275,32 @@ data class User(val uuid: UUID) {
         }
     }
 
-
     private val gameItems = mutableMapOf<ItemType, MutableList<GameItem>>()
     private val uncheckedGameItems = mutableMapOf<ItemType, MutableList<GameItem>>()
 
-    fun addUncheckedItem(gameItem: GameItem, type: ItemType) {
-        if (uncheckedGameItems[type].isNullOrEmpty()) uncheckedGameItems[type] = mutableListOf()
+    fun addUncheckedItem(gameItem: GameItem) {
+        val itemType = gameItem.itemType
 
-        if (type == ItemType.CONSUMABLE) {
+        if (uncheckedGameItems[itemType].isNullOrEmpty()) uncheckedGameItems[itemType] = mutableListOf()
+
+        if (itemType == ItemType.CONSUMABLE) {
             val targetItem: GameItem? = findGameItem(gameItem.gameName, gameItem.itemStack)
 
             if (targetItem != null) targetItem.amount += gameItem.amount
-            else uncheckedGameItems[type]!!.add(gameItem)
-        } else uncheckedGameItems[type]!!.add(gameItem)
+            else uncheckedGameItems[itemType]!!.add(gameItem)
+        } else uncheckedGameItems[itemType]!!.add(gameItem)
     }
 
     fun removeUncheckedItem(gameItem: GameItem) {
-        val type = gameItem.itemType
+        val itemType = gameItem.itemType
 
-        if (uncheckedGameItems[type].isNullOrEmpty()) uncheckedGameItems[type] = mutableListOf()
+        if (uncheckedGameItems[itemType].isNullOrEmpty()) uncheckedGameItems[itemType] = mutableListOf()
 
         val targetItem: GameItem = findGameItem(gameItem.gameName, gameItem.itemStack) ?: return
-        if (type == ItemType.CONSUMABLE) {
-            targetItem.amount -= gameItem.amount
-            if (targetItem.amount <= 0) uncheckedGameItems[type]!!.remove(gameItem)
-        } else uncheckedGameItems[type]!!.remove(gameItem)
+        if (itemType == ItemType.CONSUMABLE) {
+            targetItem.amount -= 1
+            if (targetItem.amount <= 0) uncheckedGameItems[itemType]!!.remove(gameItem)
+        } else uncheckedGameItems[itemType]!!.remove(gameItem)
     }
 
     fun findGameItem(gameName: String, itemStack: ItemStack): GameItem? {
@@ -349,6 +350,16 @@ data class User(val uuid: UUID) {
         update()
     }
 
+    private val activeCooldown = mutableMapOf<GameItem, Long>()
+
+    fun addCooldown(gameItem: GameItem, cooldown: Double) {
+        activeCooldown[gameItem] = currentTimeMillis() + (cooldown * 1000).toLong()
+    }
+
+    fun getCooldownTime(gameItem: GameItem): Double {
+        if (activeCooldown[gameItem] == null) return 0.0
+        return max(0.0, ((activeCooldown[gameItem]!! - currentTimeMillis()) / 1000).toDouble())
+    }
 
     private fun createPlayerProperties() {
         properties.clear()

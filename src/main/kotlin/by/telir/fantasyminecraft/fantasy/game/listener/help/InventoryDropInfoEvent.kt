@@ -1,9 +1,11 @@
 package by.telir.fantasyminecraft.fantasy.game.listener.help
 
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerDropItemEvent
 
 class InventoryDropInfoEvent : Listener {
     companion object {
@@ -18,6 +20,7 @@ class InventoryDropInfoEvent : Listener {
 
     @EventHandler
     fun onInventoryClick(e: InventoryClickEvent) {
+        instance = this
         val dropActions = setOf(
             InventoryAction.DROP_ALL_CURSOR,
             InventoryAction.DROP_ALL_SLOT,
@@ -25,6 +28,6 @@ class InventoryDropInfoEvent : Listener {
             InventoryAction.DROP_ONE_SLOT
         )
 
-        if (dropActions.contains(e.action)) isInventoryDrop = true
+        isInventoryDrop = dropActions.contains(e.action)
     }
 }

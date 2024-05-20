@@ -1,7 +1,5 @@
 package by.telir.fantasyminecraft.fantasy.game.listener.combat
 
-import by.telir.fantasyminecraft.fantasy.game.attribute.type.MinecraftAttribute
-import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent

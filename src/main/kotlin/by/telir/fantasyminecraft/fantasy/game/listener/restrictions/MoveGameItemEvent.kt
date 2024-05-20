@@ -107,7 +107,6 @@ class MoveGameItemEvent : Listener {
                 val itemType = GameItemUtil.getItemType(gameName)
 
                 if (itemType == ItemType.WEAPON) isUpdate = true
-                Bukkit.broadcastMessage(isUpdate.toString())
                 if (isUpdate) user.update()
             }
         }.runTaskLater(FantasyMinecraft.instance, 1)

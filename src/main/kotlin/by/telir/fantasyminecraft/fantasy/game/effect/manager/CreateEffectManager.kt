@@ -5,12 +5,9 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.type.MinecraftAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
 import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
-import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType.EffectActionType
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType.PeriodEffectType
-import by.telir.fantasyminecraft.fantasy.game.user.User
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
-import org.bukkit.Bukkit
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
@@ -76,8 +73,10 @@ class CreateEffectManager(private val livingEntity: LivingEntity, private val ef
 
                         PeriodEffectType.CHANGE_HEALTH -> {
                             livingEntity.health += amount
-                            livingEntity.health += AttributeUtil.getValue(livingEntity,
-                                MinecraftAttribute.GENERIC_MAX_HEALTH) * percent
+                            livingEntity.health += AttributeUtil.getValue(
+                                livingEntity,
+                                MinecraftAttribute.GENERIC_MAX_HEALTH
+                            ) * percent
                         }
 
                         null -> {}

@@ -2,7 +2,6 @@ package by.telir.fantasyminecraft.fantasy.game.listener.util
 
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.entity.Projectile
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
 object EventUtil {

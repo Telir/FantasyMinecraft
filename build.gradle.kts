@@ -1,4 +1,3 @@
-
 plugins {
     kotlin("jvm") version "1.9.22"
 }
@@ -22,15 +21,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     implementation("com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT")
     implementation(files("C:/Users/local-admin/.m2/repository/org/spigotmc/spigot/1.12.2-R0.1-SNAPSHOT/spigot-1.12.2-R0.1-SNAPSHOT.jar"))
-
-    implementation("org.mongodb:mongodb-driver-sync:5.0.1")
-
-    implementation("org.slf4j:slf4j-api:2.0.13")
-    implementation("org.slf4j:slf4j-simple:2.0.13")
 }
 
 //val shadowJar by configurations.creating

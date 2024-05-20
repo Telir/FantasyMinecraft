@@ -10,7 +10,7 @@ class ShowHealthManager {
     private val sc = Bukkit.getScoreboardManager().mainScoreboard!!
     private lateinit var belowOjb: Objective
 
-    fun setupBelow() {
+    fun setupBelowHealthbar() {
         belowOjb = sc.getObjective("healthbarbellow") ?: sc.registerNewObjective("healthbarbellow", "dummy")
 
         belowOjb.displaySlot = DisplaySlot.BELOW_NAME
@@ -23,7 +23,7 @@ class ShowHealthManager {
         belowOjb.getScore(player.name).score = score
     }
 
-    fun removeBelow() {
+    fun removeBelowHealthbar() {
         belowOjb.unregister()
     }
 }

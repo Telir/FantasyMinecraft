@@ -11,22 +11,22 @@ import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 object UserUtil {
-    private val PLUGIN = FantasyMinecraft.instance
+    private val plugin = FantasyMinecraft.instance
 
     fun create(vararg uuid: UUID) {
-        uuid.forEach { PLUGIN.users[it] = User(it) }
+        uuid.forEach { plugin.users[it] = User(it) }
     }
 
     fun contains(uuid: UUID): Boolean {
-        return uuid in PLUGIN.users
+        return uuid in plugin.users
     }
 
     fun find(uuid: UUID): User? {
-        return PLUGIN.users[uuid]
+        return plugin.users[uuid]
     }
 
     fun users(): Set<User> {
-        return PLUGIN.users.values.toSet()
+        return plugin.users.values.toSet()
     }
 
     fun runManaRegen() {
@@ -40,7 +40,7 @@ object UserUtil {
                     sendInfo(user)
                 }
             }
-        }
+        }.runTaskTimer(plugin, 0L, 2L)
     }
 
     private fun sendInfo(user: User) {
@@ -52,8 +52,9 @@ object UserUtil {
         val health = player.health
         val maxHealth = user.attributes[AttributeType.HEALTH]!!.finalValue.toInt()
 
-        val manaPercent = MathUtil.round(mana / maxMana * 100, 1)
+        val manaPercent = if (maxMana > 0) MathUtil.round(mana / maxMana * 100, 1) else 0.0
         val healthPercent = MathUtil.round(health / maxHealth * 100, 1)
+
 
         var actionBarText =
             "§c§l${health.toInt()}/$maxHealth ($healthPercent%)        §b§l$mana/$maxMana ($manaPercent%)"

@@ -364,7 +364,7 @@ class FantasyConfigReader(private val section: ConfigurationSection) {
                     active.amount = section.getDouble("healthRestore.amount")
                     active.percent = section.getDouble("healthRestore.percent")
                     active.manaCost = section.getDouble("healthRestore.manaCost")
-                    actives[ActiveType.HEALTH_RESTORE]
+                    actives[ActiveType.HEALTH_RESTORE] = active
                 }
 
                 "manaRestore" -> {

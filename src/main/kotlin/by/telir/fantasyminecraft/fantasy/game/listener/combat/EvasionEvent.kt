@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-class EvasionEvent: Listener {
+class EvasionEvent : Listener {
     @EventHandler
     fun onEntityDamageByEntity(e: EntityDamageByEntityEvent) {
         if (e.isCancelled) return

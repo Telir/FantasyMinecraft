@@ -2,8 +2,12 @@ package by.telir.fantasyminecraft
 
 import by.telir.fantasyminecraft.fantasy.command.AttributeCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
-import by.telir.fantasyminecraft.fantasy.game.listener.active.ActiveUseEvent
+import by.telir.fantasyminecraft.fantasy.game.item.GameItem
+import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.ActiveUseEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
+import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.DropGameItemEvent
+import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.PickupGameItemEvent
+import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.UntouchableItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.InventoryDropInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.regen.HealthRegenEvent
@@ -13,12 +17,12 @@ import by.telir.fantasyminecraft.fantasy.game.showhealth.manager.ShowHealthManag
 import by.telir.fantasyminecraft.fantasy.game.user.User
 import by.telir.fantasyminecraft.fantasy.game.user.listener.RegisterUserListener
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
-import by.telir.fantasyminecraft.pluginutil.command.FlyCommand
 import by.telir.fantasyminecraft.pluginutil.command.ReloadCommand
 import by.telir.fantasyminecraft.pluginutil.listener.MinecraftCommandListener
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandExecutor
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -28,22 +32,24 @@ class FantasyMinecraft : JavaPlugin() {
     }
 
     val users = mutableMapOf<UUID, User>()
-    val showHealthManager = ShowHealthManager()
+    val droppedGameItems = mutableMapOf<ItemStack, GameItem>()
+    lateinit var showHealthManager: ShowHealthManager
 
     override fun onLoad() {
         instance = this
     }
 
     override fun onEnable() {
+        showHealthManager = ShowHealthManager()
+
         UserUtil.create(*Bukkit.getOnlinePlayers().map { it.uniqueId }.toTypedArray())
         UserUtil.runManaRegen()
 
-        showHealthManager.setupBelow()
+        showHealthManager.setupBelowHealthbar()
         Bukkit.getOnlinePlayers().forEach { showHealthManager.updateHealthbarBelow(it) }
 
         //region Commands
         executeCommand("rc", ReloadCommand())
-        executeCommand("fly", FlyCommand())
         executeCommand("user", UserCommand())
         executeCommand("attribute", AttributeCommand())
         //endregion
@@ -73,21 +79,24 @@ class FantasyMinecraft : JavaPlugin() {
 
         //region Other events
         registerEvents(HealthRegenEvent())
-        registerEvents(ActiveUseEvent())
         registerEvents(ShowHealthEvent())
+        //endregion
+
+        //region GameItem events
+        registerEvents(ActiveUseEvent())
+        registerEvents(DropGameItemEvent())
+        registerEvents(PickupGameItemEvent())
         //endregion
 
         //region Restriction events
         registerEvents(AntiHungerEvent())
         registerEvents(MoveGameItemEvent())
         registerEvents(UntouchableItemEvent())
-        registerEvents(DropGameItemEvent())
-        registerEvents(PickupGameItemEvent())
         //endregion
     }
 
     override fun onDisable() {
-        showHealthManager.removeBelow()
+        showHealthManager.removeBelowHealthbar()
         server.scoreboardManager.mainScoreboard.teams.forEach { it.unregister() }
     }
 

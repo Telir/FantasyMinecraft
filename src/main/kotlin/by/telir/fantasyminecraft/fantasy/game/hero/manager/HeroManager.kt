@@ -14,6 +14,7 @@ class HeroManager {
         private val INTELLIGENCE = ConfigUtil.getConfig("intelligenceHeroes")
         private val UNIVERSAL = ConfigUtil.getConfig("universalHeroes")
     }
+
     fun select(user: User, gameName: String, heroAttribute: HeroAttribute) {
         val hero = createHero(gameName, heroAttribute) ?: throw RuntimeException("Illegal gameName")
         user.selectHero(hero)

@@ -5,15 +5,10 @@ main: by.telir.fantasyminecraft.FantasyMinecraft
 
 commands:
   rc:
+    usage: /<command>
     description: "Reloading Server"
-  debug:
-  fly:
-    permission: "command.fly"
 
   user:
     usage: /<command> [args]
   attribute:
     usage: /<command> <attribute>
-
-  geffect:
-    usage: /<command> <effect>

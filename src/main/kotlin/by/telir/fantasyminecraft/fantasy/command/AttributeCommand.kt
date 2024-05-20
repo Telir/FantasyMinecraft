@@ -53,10 +53,11 @@ class AttributeCommand : TabExecutor {
         if (args!!.size == 1) {
             val returningArgs = mutableListOf(
                 "damage", "attackSpeed", "moveSpeed", "health", "mana", "healthRegen", "manaRegen",
-                "defense", "toughness", "magicResistance", "agility", "intelligence", "strength")
+                "defense", "toughness", "magicResistance", "agility", "intelligence", "strength"
+            )
             if (args[0].isEmpty()) return returningArgs
             return returningArgs.filter { it.lowercase().startsWith(args[0].lowercase()) }
         }
-        return ArrayList()
+        return mutableListOf()
     }
 }

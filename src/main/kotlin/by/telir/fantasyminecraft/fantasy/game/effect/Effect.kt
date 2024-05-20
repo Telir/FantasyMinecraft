@@ -4,7 +4,6 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifi
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
-import by.telir.fantasyminecraft.fantasy.game.user.User
 import org.bukkit.entity.LivingEntity
 
 abstract class Effect(val type: EffectType) {

@@ -1,5 +1,6 @@
 package by.telir.fantasyminecraft.fantasy.game.item.manager
 
+import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
 import by.telir.fantasyminecraft.fantasy.game.item.type.ItemType
 import by.telir.fantasyminecraft.fantasy.game.item.util.GameItemUtil
@@ -19,12 +20,19 @@ class GameItemManager {
         private val OFFHAND = ConfigUtil.getConfig("offhand")
     }
 
-    fun add(user: User, gameName: String, type: ItemType, isPickup: Boolean) {
+    private val plugin = FantasyMinecraft.instance
+
+    fun pickup(user: User, gameItem: GameItem, itemStack: ItemStack) {
+        user.addUncheckedItem(gameItem)
+        plugin.droppedGameItems.remove(itemStack)
+        user.update()
+    }
+
+    fun add(user: User, gameName: String, type: ItemType) {
         val gameItem = create(gameName, type) ?: throw RuntimeException("Illegal gameName")
 
-        user.addUncheckedItem(gameItem, type)
-
-        if (!isPickup) user.player.inventory.addItem(gameItem.itemStack)
+        user.addUncheckedItem(gameItem)
+        user.player.inventory.addItem(gameItem.itemStack)
         user.update()
     }
 
@@ -35,15 +43,15 @@ class GameItemManager {
         if (findGameItem != null) user.removeUncheckedItem(findGameItem)
 
         if (isDrop) {
-            for (i in 0 until itemStack.amount) {
-                remove(user, itemStack, false)
-                itemStack.amount--
+            for (i in 1 until itemStack.amount) {
+                if (findGameItem != null) user.removeUncheckedItem(findGameItem)
             }
+            if (findGameItem != null) plugin.droppedGameItems[itemStack] = findGameItem
+            user.update()
         } else {
             itemStack.amount--
+            user.update()
         }
-
-        user.update()
     }
 
     private fun create(gameName: String, type: ItemType): GameItem? {

@@ -10,7 +10,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-class TrueStrikeEvent: Listener {
+class TrueStrikeEvent : Listener {
     @EventHandler
     fun onEntityDamageByEntity(e: EntityDamageByEntityEvent) {
         val damager = EventUtil.getDamager(e) ?: return

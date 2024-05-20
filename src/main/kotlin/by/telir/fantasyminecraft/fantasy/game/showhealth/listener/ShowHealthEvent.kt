@@ -1,19 +1,14 @@
 package by.telir.fantasyminecraft.fantasy.game.showhealth.listener
 
 import by.telir.fantasyminecraft.FantasyMinecraft
-import by.telir.fantasyminecraft.fantasy.game.showhealth.manager.ShowHealthManager
-import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
-import org.bukkit.event.entity.EntitySpawnEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerRespawnEvent
-import org.bukkit.event.world.WorldLoadEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class ShowHealthEvent : Listener {

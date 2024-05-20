@@ -66,7 +66,10 @@ class LifestealEvent : Listener {
             }
         }
         if (healAmount > 0.0) {
-            damager.health += max(healAmount * healAmplifier, AttributeUtil.getValue(damager, MinecraftAttribute.GENERIC_MAX_HEALTH))
+            damager.health += max(
+                healAmount * healAmplifier,
+                AttributeUtil.getValue(damager, MinecraftAttribute.GENERIC_MAX_HEALTH)
+            )
         }
         if (damageAmount > 0.0) {
             DamageDealer(defender).dealDamage(damageAmount, damageType)

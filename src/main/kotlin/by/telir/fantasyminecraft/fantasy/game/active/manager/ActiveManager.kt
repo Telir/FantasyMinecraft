@@ -17,16 +17,6 @@ class ActiveManager(private var gameItem: GameItem) {
     val changedProperties = mutableMapOf<PropertyType, GameProperty>()
     val changedModifiers = mutableMapOf<AttributeType, AttributeModifier>()
 
-    var cooldown: Double
-        get() = if (endCooldownTime < System.currentTimeMillis()) 0.0 else (endCooldownTime - System.currentTimeMillis()).toDouble() / 1000
-        set(value) {
-            if (value > 0.0) {
-                stopTask.cancel()
-                createStopTask(value)
-            } else stop()
-        }
-
-    private var endCooldownTime: Long = 0L
 
     lateinit var oldProperties: Map<PropertyType, GameProperty>
     lateinit var oldModifiers: Map<AttributeType, AttributeModifier>
