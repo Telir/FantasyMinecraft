@@ -17,7 +17,6 @@ class ActiveManager(private var gameItem: GameItem) {
     val changedProperties = mutableMapOf<PropertyType, GameProperty>()
     val changedModifiers = mutableMapOf<AttributeType, AttributeModifier>()
 
-
     lateinit var oldProperties: Map<PropertyType, GameProperty>
     lateinit var oldModifiers: Map<AttributeType, AttributeModifier>
 

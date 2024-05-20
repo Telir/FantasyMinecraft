@@ -1,0 +1,10 @@
+strength:
+  health: 4
+  healthRegen: 0.1
+agility:
+  attackSpeed: 0.01
+  defense: 0.165
+intelligence:
+  mana: 2
+  manaRegen: 0.0125
+  magicResistance: 0.001

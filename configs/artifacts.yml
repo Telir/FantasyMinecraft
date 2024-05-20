@@ -1,0 +1,184 @@
+crystalys:
+  material: INK_SACK
+  color: RED
+  displayName: "§f§lCrystalys"
+  parentName: "crystalys"
+  lore:
+    - "§7+§f2 §7Damage"
+    - ''
+    - "§ePassive: §fCritical Strike"
+    - "§7Grants each attack a §f30% §7chance"
+    - "§7to deal §f160% §7damage."
+    - ''
+    - "§8§oA blade forged from rare crystals,"
+    - "§8§oit seeks weak points in enemy armor."
+  property:
+    crit:
+      chance: 0.3
+      value: 1.6
+  attribute:
+    damage:
+      amount: 2
+
+
+
+talismanOfEvasion:
+  material: SLIME_BALL
+  displayName: "§f§lTalisman Of Evasion"
+  parentName: "talismanOfEvasion"
+  lore:
+    - "§7+§f20% §7Evasion"
+    - ''
+    - "§8§oA necklace that allows you "
+    - "§8§oto anticipate enemy attacks."
+  property:
+    evasion:
+      chance: 0.2
+
+
+
+morbidMask:
+  material: REDSTONE
+  displayName: "§f§lMorbid Mask"
+  parentName: "morbidMask"
+  lore:
+    - "§ePassive: §fLifesteal"
+    - "§7Heals the attacker for §f9%"
+    - "§7of attack damage dealt."
+    - ''
+    - "§8§oA mask that drains the energy"
+    - "§8§oof those caught in its gaze."
+  property:
+    lifesteal:
+      chance: 1
+      value: 0.09
+
+healingAmulet:
+  material: SPECKLED_MELON
+  displayName: "§f§lHealing Amulet"
+  parentName: "healingAmulet"
+  lore:
+    - "§7+§f4 §7Health"
+    - ''
+    - "§9Active: §fHeal"
+    - "§7Instantly restores §f5 §7health."
+    - "§2Cooldown: §f12"
+    - "§3Mana Cost: §f2"
+    - ''
+    - "§8§oAn amulet used by a very famous healer"
+  attribute:
+    health:
+      amount: 4
+  active:
+    healthRestore:
+      amount: 5
+      cooldown: 12
+      manaCost: 2
+
+monkeyKingBar:
+  material: BLAZE_ROD
+  displayName: "§f§lMonkey King Bar"
+  parentName: "monkeyKingBar"
+  lore:
+    - "§7+§f4 §7Damage"
+    - "§7+§f0.02 §7AttackSpeed"
+    - ''
+    - "§ePassive: §fTrueStrike"
+    - "§7Grants each attack a §f80% §7chance"
+    - "§7to pierce through miss"
+    - "§7and deal §d3 §7magic damage."
+    - ''
+    - "§8§oA powerful staff used"
+    - "§8§oby a master warrior."
+  property:
+    trueStrike:
+      chance: 0.8
+      damage:
+        amount: 3
+        type: MAGICAL
+  attribute:
+    damage:
+      amount: 4
+    attackSpeed:
+      amount: 0.02
+
+bootsOfSpeed:
+  material: RABBIT_HIDE
+  displayName: "§f§lBoots Of Speed"
+  parentName: "bootsOfSpeed"
+  lore:
+    - "§7+§f0.01 §7Speed"
+    - ''
+    - "§7Movement speed bonuses from multiple pairs of"
+    - "§7Boots of Speed-based items do not stack,"
+    - "§7the one with a higher value takes priority."
+    - ''
+    - "§8§oFleet footwear, increasing movement."
+  attribute:
+    speed:
+      amount: 0.01
+      isUnstackable: true
+
+phaseBoots:
+  material: LEATHER
+  displayName: "§f§lPhase boots"
+  parentName: "bootsOfSpeed"
+  lore:
+    - "§7+§f0.015 §7Speed"
+    - ''
+    - "§9Active: §fPhase"
+    - "§7Gives §f20% §7increased movement speed."
+    - "§2Cooldown: §f8"
+    - "§5Duration: §f3"
+    - ''
+    - "§7Movement speed bonuses from multiple pairs of"
+    - "§7Boots of Speed-based items do not stack,"
+    - "§7the one with a higher value takes priority."
+    - ''
+    - "§8§oBoots that allow the wearer"
+    - "§8§oto travel between the ether."
+  attribute:
+    speed:
+      amount: 0.015
+      isUnstackable: true
+  active:
+    speedBoosting:
+      value: 0.2
+      cooldown: 8
+      duration: 3
+
+eyeOfSkadi:
+  material: INK_SACK
+  color: BLUE
+  displayName: "§f§lEye Of Skadi"
+  parentName: "eyeOfSkadi"
+  lore:
+    - "§7+§f10 §7Every DotaAttribute"
+    - ''
+    - "§8§onone"
+  attribute:
+    strength:
+      amount: 10
+    agility:
+      amount: 10
+    intelligence:
+      amount: 10
+
+javelin:
+  material: STICK
+  displayName: "§f§lJavelin"
+  parentName: "javelin"
+  lore:
+    - "§ePassive: §fPierce"
+    - "§7Grants each attack a §f25% §7chance"
+    - "§7to pierce through evasion and"
+    - "§7deal §f2 §7bonus magic damage"
+    - ''
+    - "§8§oA rather typical spear that can sometimes pierce"
+    - "§8§othrough an enemy's armor when used to attack."
+  property:
+    trueStrike:
+      chance: 0.25
+      damage:
+        amount: 2
+        type: MAGICAL

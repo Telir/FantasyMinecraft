@@ -1,0 +1,20 @@
+faerieFire:
+  material: EMERALD
+  displayName: "§f§lFaerie Fire"
+  parentName: "faerieFire"
+  lore:
+    - "§7+§f0.1 §7Damage"
+    - ''
+    - "§cDisposable: §fImbue"
+    - "§7Instantly restores §f6 §7health."
+    - "§2Cooldown: §f8"
+    - ''
+    - "§8§oThe ethereal flames from the ever-burning"
+    - "§8§oruins of Kindertree ignite across realities."
+  attribute:
+    damage:
+      amount: 0.1
+  active:
+    healthRestore:
+      amount: 6
+      cooldown: 8

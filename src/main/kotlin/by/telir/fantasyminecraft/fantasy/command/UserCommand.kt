@@ -49,7 +49,7 @@ class UserCommand : TabExecutor {
                         else -> return false
                     }
 
-                    GameItemManager().add(user, args[2], type)
+                    GameItemManager().add(user, args[2], type, false)
                 }
 
                 "selecthero" -> {

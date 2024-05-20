@@ -36,9 +36,12 @@ class ActiveUseEvent : Listener {
                     if (gameItem.itemType == ItemType.CONSUMABLE) GameItemManager().remove(user, itemStack, false)
                     player.sendMessage("Use!")
                 }
+
                 ActiveResult.NOT_ENOUGH_MANA -> player.sendMessage("Not enough mana!")
                 ActiveResult.NOT_ENOUGH_HEALTH -> player.sendMessage("Not enough health!")
-                ActiveResult.ON_COOLDOWN -> MathUtil.round(user.getCooldownTime(gameItem), 1)
+                ActiveResult.ON_COOLDOWN -> player.sendMessage(
+                    "cooldown: ${MathUtil.round(user.getCooldownTime(gameItem), 1)}"
+                )
             }
         }
     }
@@ -61,12 +64,12 @@ class ActiveUseEvent : Listener {
         for (activeType in gameItem.actives.keys) {
             val result = gameItem.actives[activeType]!!.use(user, gameItem)
             when (result) {
-                ActiveResult.USED -> {
-                    player.sendMessage("Use!")
-                }
+                ActiveResult.USED -> player.sendMessage("Use!")
                 ActiveResult.NOT_ENOUGH_MANA -> player.sendMessage("Not enough mana!")
                 ActiveResult.NOT_ENOUGH_HEALTH -> player.sendMessage("Not enough health!")
-                ActiveResult.ON_COOLDOWN -> MathUtil.round(user.getCooldownTime(gameItem), 1)
+                ActiveResult.ON_COOLDOWN -> player.sendMessage(
+                    "cooldown: ${MathUtil.round(user.getCooldownTime(gameItem), 1)}"
+                )
             }
         }
     }

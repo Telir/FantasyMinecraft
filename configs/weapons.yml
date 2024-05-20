@@ -1,0 +1,23 @@
+excalibur:
+  material: DIAMOND_SWORD
+  displayName: "§f§lExcalibur"
+  parentName: "excalibur"
+  lore:
+    - "§7Damage: §f10"
+    - "§7Attack Speed: §f1.75"
+    - ''
+    - "§ePassive: §fExcalibur"
+    - "§7Grants each attack a §f25% §7chance"
+    - "§7to deal §f300% §7damage."
+    - ''
+    - "§8§oThe legendary sword that"
+    - "§8§owas once owned by the hero."
+  property:
+    crit:
+      chance: 0.25
+      value: 3.0
+  attribute:
+    damage:
+      amount: 10
+    attackSpeed:
+      amount: 1.75

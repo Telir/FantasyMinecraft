@@ -6,7 +6,6 @@ import by.telir.fantasyminecraft.fantasy.game.active.type.ActiveType
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
 import by.telir.fantasyminecraft.fantasy.game.user.User
-import org.bukkit.Bukkit
 
 class HealthRestoreActive(cooldown: Double) : GameActive(cooldown, ActiveType.HEALTH_RESTORE) {
     var amount: Double = 0.0

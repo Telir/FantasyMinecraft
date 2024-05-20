@@ -2,16 +2,16 @@ package by.telir.fantasyminecraft
 
 import by.telir.fantasyminecraft.fantasy.command.AttributeCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
-import by.telir.fantasyminecraft.fantasy.game.item.GameItem
-import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.ActiveUseEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
+import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.ActiveUseEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.DropGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.PickupGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.UntouchableItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.InventoryDropInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.regen.HealthRegenEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.*
+import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.AntiHungerEvent
+import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.MoveGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.showhealth.listener.ShowHealthEvent
 import by.telir.fantasyminecraft.fantasy.game.showhealth.manager.ShowHealthManager
 import by.telir.fantasyminecraft.fantasy.game.user.User
@@ -22,7 +22,6 @@ import by.telir.fantasyminecraft.pluginutil.listener.MinecraftCommandListener
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandExecutor
 import org.bukkit.event.Listener
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -32,7 +31,6 @@ class FantasyMinecraft : JavaPlugin() {
     }
 
     val users = mutableMapOf<UUID, User>()
-    val droppedGameItems = mutableMapOf<ItemStack, GameItem>()
     lateinit var showHealthManager: ShowHealthManager
 
     override fun onLoad() {

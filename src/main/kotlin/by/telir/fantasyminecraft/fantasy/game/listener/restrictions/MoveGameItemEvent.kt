@@ -4,7 +4,6 @@ import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.item.type.ItemType
 import by.telir.fantasyminecraft.fantasy.game.item.util.GameItemUtil
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

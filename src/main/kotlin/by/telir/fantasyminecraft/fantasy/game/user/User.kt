@@ -358,7 +358,7 @@ data class User(val uuid: UUID) {
 
     fun getCooldownTime(gameItem: GameItem): Double {
         if (activeCooldown[gameItem] == null) return 0.0
-        return max(0.0, ((activeCooldown[gameItem]!! - currentTimeMillis()) / 1000).toDouble())
+        return max(0.0, ((activeCooldown[gameItem]!! - currentTimeMillis()).toDouble() / 1000))
     }
 
     private fun createPlayerProperties() {
