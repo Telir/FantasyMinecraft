@@ -5,32 +5,20 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-class EventUtil {
-    companion object {
-        fun getDamager(e: EntityDamageByEntityEvent): Player? {
-            var damager: Player? = e.damager as? Player
-            if (damager == null) {
-                val projectile: Projectile? = e.damager as? Projectile
-                if (projectile != null) damager = projectile.shooter as Player
-            }
-            return damager
-        }
+object EventUtil {
+    fun getDamager(e: EntityDamageByEntityEvent): Player? {
+        return e.damager as? Player
+    }
 
-        fun getEntityDamager(e: EntityDamageByEntityEvent): LivingEntity? {
-            var damager: LivingEntity? = e.damager as? LivingEntity
-            if (damager == null) {
-                val projectile: Projectile? = e.damager as? Projectile
-                if (projectile != null) damager = projectile.shooter as? LivingEntity
-            }
-            return damager
-        }
+    fun getEntityDamager(e: EntityDamageByEntityEvent): LivingEntity? {
+        return e.damager as? LivingEntity
+    }
 
-        fun getDefender(e: EntityDamageByEntityEvent): Player? {
-            return e.entity as? Player
-        }
+    fun getDefender(e: EntityDamageByEntityEvent): Player? {
+        return e.entity as? Player
+    }
 
-        fun getEntityDefender(e: EntityDamageByEntityEvent): LivingEntity? {
-            return e.entity as? LivingEntity
-        }
+    fun getEntityDefender(e: EntityDamageByEntityEvent): LivingEntity? {
+        return e.entity as? LivingEntity
     }
 }

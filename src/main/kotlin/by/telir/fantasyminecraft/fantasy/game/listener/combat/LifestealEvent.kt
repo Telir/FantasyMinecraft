@@ -6,9 +6,8 @@ import by.telir.fantasyminecraft.fantasy.game.damage.deal.DamageDealer
 import by.telir.fantasyminecraft.fantasy.game.damage.type.DamageType
 import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.LifestealProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
-import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
@@ -28,7 +27,7 @@ class LifestealEvent : Listener {
         var damageType = DamageType.PHYSICAL
 
         val user = UserUtil.find(damager.uniqueId) ?: return
-        val propertyType = GamePropertyType.LIFESTEAL
+        val propertyType = PropertyType.LIFESTEAL
 
         val defenderMaxHealth = AttributeUtil.getValue(defender, MinecraftAttribute.GENERIC_MAX_HEALTH)
         val defenderHealth = defender.health

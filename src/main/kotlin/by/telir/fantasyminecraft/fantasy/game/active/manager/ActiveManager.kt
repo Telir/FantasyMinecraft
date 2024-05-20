@@ -5,16 +5,16 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifi
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
 import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
-class ActiveManager(var gameItem: GameItem) {
+class ActiveManager(private var gameItem: GameItem) {
     companion object {
         private val PLUGIN = FantasyMinecraft.instance
     }
 
-    val changedProperties = mutableMapOf<GamePropertyType, GameProperty>()
+    val changedProperties = mutableMapOf<PropertyType, GameProperty>()
     val changedModifiers = mutableMapOf<AttributeType, AttributeModifier>()
 
     var cooldown: Double
@@ -28,7 +28,7 @@ class ActiveManager(var gameItem: GameItem) {
 
     private var endCooldownTime: Long = 0L
 
-    lateinit var oldProperties: Map<GamePropertyType, GameProperty>
+    lateinit var oldProperties: Map<PropertyType, GameProperty>
     lateinit var oldModifiers: Map<AttributeType, AttributeModifier>
 
     private lateinit var stopTask: BukkitTask

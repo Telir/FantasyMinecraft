@@ -4,7 +4,7 @@ import by.telir.fantasyminecraft.fantasy.game.damage.deal.DamageDealer
 import by.telir.fantasyminecraft.fantasy.game.damage.type.DamageType
 import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.ReturnDamageProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -23,7 +23,7 @@ class ReturnDamageEvent : Listener {
         var blockAmount = 0.0
 
         val user = UserUtil.find(defender.uniqueId) ?: return
-        val propertyType = GamePropertyType.RETURN_DAMAGE
+        val propertyType = PropertyType.RETURN_DAMAGE
 
         val gameItems = user.getGameItems()
         gameItems.forEach {

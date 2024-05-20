@@ -4,11 +4,9 @@ import by.telir.fantasyminecraft.fantasy.game.active.GameActive
 import by.telir.fantasyminecraft.fantasy.game.active.manager.ActiveManager
 import by.telir.fantasyminecraft.fantasy.game.active.state.ActiveState
 import by.telir.fantasyminecraft.fantasy.game.active.type.ActiveType
-import by.telir.fantasyminecraft.fantasy.game.effect.manager.EffectManager
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
-import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.ReturnDamageProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.User
 
 class ReturnDamageUpActive(cooldown: Double) : GameActive(cooldown, ActiveType.RETURN_DAMAGE_UP) {
@@ -37,7 +35,7 @@ class ReturnDamageUpActive(cooldown: Double) : GameActive(cooldown, ActiveType.R
 
         val activeManager = ActiveManager(gameItem)
 
-        activeManager.changedProperties[GamePropertyType.RETURN_DAMAGE] = newProperty
+        activeManager.changedProperties[PropertyType.RETURN_DAMAGE] = newProperty
         activeManager.start(duration)
 
         return ActiveState.USED

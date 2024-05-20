@@ -4,9 +4,9 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.GameAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.DotaModifier.*
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.OperationType
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.*
-import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
@@ -18,12 +18,14 @@ import by.telir.fantasyminecraft.fantasy.game.item.util.GameItemUtil
 import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.BlindnessProperty
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.EvasionProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
-import kotlin.math.*
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.round
 
 data class User(val uuid: UUID) {
 
@@ -42,23 +44,24 @@ data class User(val uuid: UUID) {
             min(max(0.0, value), attributes[AttributeType.MANA]!!.finalValue)
         }
 
-    var level: Int = 0
-        set(value) {
-            max(1, value)
-        }
-
     fun update() {
-        createAttributes()
+        createPlayerAttributes()
+        createPlayerProperties()
         updateHero()
         updateItems()
         updateEffects()
         updateDotaAttributes()
         updateMinecraftAttributes()
     }
+
     private fun updateHero() {
-        if (hero == null) return
+        if (hero == null) {
+            mainAttribute = null
+            return
+        }
         properties.putAll(hero!!.properties)
         attributes.putAll(hero!!.attributes)
+        mainAttribute = hero!!.mainAttribute
     }
 
     private fun updateItems() {
@@ -103,31 +106,26 @@ data class User(val uuid: UUID) {
                                 attributeModifier.amount -= 1
                                 attributes[attributeType]!!.addModifier(attributeModifier)
                             }
+
                             AttributeType.ATTACK_SPEED -> {
                                 val attributeModifier = gameItem.modifiers[attributeType]!!.copy()
                                 attributeModifier.amount -= 4
                                 attributes[attributeType]!!.addModifier(attributeModifier)
                             }
+
                             else -> {}
                         }
-                    }
-                    else attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!)
+                    } else attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!)
                 }
             }
         }
     }
 
-    private fun createAttributes() {
-        attributes.clear()
-        for (attributeType in AttributeType.entries) {
-            attributes[attributeType] = GameAttribute(attributeType)
-        }
-    }
-
     private fun updateEffects() {
-        for (effectType in effects.keys) {
-            effects[effectType]?.forEach { effect -> effect.attributeChanges.keys.forEach {
-                attributes[it]!!.addModifier(effect.attributeChanges[it]!!) } }
+        getActiveEffects().forEach { effect ->
+            effect.attributeChanges.keys.forEach {
+                attributes[it]!!.addModifier(effect.attributeChanges[it]!!)
+            }
         }
     }
 
@@ -137,28 +135,31 @@ data class User(val uuid: UUID) {
                 if (attributeType != dotaAttribute.attributeType) continue
 
                 val finalValue = attributes[attributeType]!!.finalValue
+
+                val defaultDamageModifier = AttributeModifier(
+                    "mainAttribute",
+                    round(finalValue),
+                    OperationType.ADD,
+                    false
+                )
+                val universalDamageModifier = AttributeModifier(
+                    "mainAttribute",
+                    round(finalValue) * 0.7,
+                    OperationType.ADD,
+                    false
+                )
                 when (dotaAttribute) {
                     STRENGTH -> {
                         val strengthModifier = STRENGTH.dotaModifier as StrengthModifier
 
                         if (mainAttribute == HeroAttribute.STRENGTH) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue),
-                                    OperationType.ADD,
-                                    false
-                                )
+                                defaultDamageModifier
                             )
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue) * 0.7,
-                                    OperationType.ADD,
-                                    false
-                                )
+                                universalDamageModifier
                             )
                         }
 
@@ -186,22 +187,12 @@ data class User(val uuid: UUID) {
 
                         if (mainAttribute == HeroAttribute.AGILITY) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue),
-                                    OperationType.ADD,
-                                    false
-                                )
+                                defaultDamageModifier
                             )
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue) * 0.7,
-                                    OperationType.ADD,
-                                    false
-                                )
+                                universalDamageModifier
                             )
                         }
 
@@ -230,22 +221,12 @@ data class User(val uuid: UUID) {
 
                         if (mainAttribute == HeroAttribute.INTELLIGENCE) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue),
-                                    OperationType.ADD,
-                                    false
-                                )
+                                defaultDamageModifier
                             )
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
                             attributes[AttributeType.DAMAGE]!!.addModifier(
-                                AttributeModifier(
-                                    "mainAttribute",
-                                    round(finalValue) * 0.7,
-                                    OperationType.ADD,
-                                    false
-                                )
+                                universalDamageModifier
                             )
                         }
 
@@ -341,28 +322,46 @@ data class User(val uuid: UUID) {
     }
 
     val attributes = mutableMapOf<AttributeType, GameAttribute>()
-    val properties = mutableMapOf<GamePropertyType, GameProperty>()
-
-    private fun createPlayerProperties() {
-        properties[GamePropertyType.BLINDNESS] = BlindnessProperty(0.0)
-        properties[GamePropertyType.EVASION] = EvasionProperty(0.0)
-    }
+    val properties = mutableMapOf<PropertyType, GameProperty>()
 
     val effects = mutableMapOf<EffectType, MutableSet<Effect>>()
 
-    fun getActiveEffects() : Set<Effect> {
+    private fun getActiveEffects(): Set<Effect> {
         return effects.values.flatten().toSet()
     }
 
-    var hero: GameHero? = null
-    var mainAttribute: HeroAttribute? = null
+    fun addEffect(effect: Effect) {
+        if (effects[effect.type] == null) effects[effect.type] = mutableSetOf(effect)
+        else effects[effect.type]!!.add(effect)
+        update()
+    }
+
+    fun removeEffect(effect: Effect) {
+        effects[effect.type]!!.remove(effect)
+        update()
+    }
+
+    private var hero: GameHero? = null
+    private var mainAttribute: HeroAttribute? = null
 
     fun selectHero(gameHero: GameHero) {
         hero = gameHero
+        update()
+    }
+
+
+    private fun createPlayerProperties() {
+        properties.clear()
+        properties[PropertyType.BLINDNESS] = BlindnessProperty(0.0)
+        properties[PropertyType.EVASION] = EvasionProperty(0.0)
+    }
+
+    private fun createPlayerAttributes() {
+        attributes.clear()
+        AttributeType.entries.forEach { attributes[it] = GameAttribute(it) }
     }
 
     init {
-        createPlayerProperties()
         update()
     }
 }

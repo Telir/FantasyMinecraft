@@ -2,7 +2,7 @@ package by.telir.fantasyminecraft.fantasy.game.item.manager
 
 import by.telir.fantasyminecraft.fantasy.util.item.dye.ColoredItemUtil
 import by.telir.fantasyminecraft.fantasy.util.item.dye.ColoredItemUtil.ItemColor
-import by.telir.fantasyminecraft.fantasy.util.item.nbt.NBTUtil
+import by.telir.fantasyminecraft.pluginutil.nms.nbt.NBTUtil
 import net.minecraft.server.v1_12_R1.AttributeModifier
 import net.minecraft.server.v1_12_R1.EnumItemSlot
 import org.bukkit.Material

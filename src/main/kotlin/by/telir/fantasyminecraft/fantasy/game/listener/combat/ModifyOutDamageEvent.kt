@@ -2,7 +2,7 @@ package by.telir.fantasyminecraft.fantasy.game.listener.combat
 
 import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.ModifyOutDamageProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
 import org.bukkit.Sound
 import org.bukkit.event.EventHandler
@@ -23,7 +23,7 @@ class ModifyOutDamageEvent : Listener {
         var defaultAmount = 0.0
 
         val user = UserUtil.find(damager.uniqueId) ?: return
-        val propertyType = GamePropertyType.MODIFY_OUT_DAMAGE
+        val propertyType = PropertyType.MODIFY_OUT_DAMAGE
 
         val gameItems = user.getGameItems()
         gameItems.forEach {

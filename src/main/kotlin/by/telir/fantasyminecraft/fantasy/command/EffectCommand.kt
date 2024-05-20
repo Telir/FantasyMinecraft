@@ -15,11 +15,6 @@ class EffectCommand : TabExecutor {
         label: String?,
         args: Array<out String>?
     ): Boolean {
-        val player = sender as? Player ?: return true
-        val user = UserUtil.find(player.uniqueId)!!
-        val bleedingEffect = BleedingEffect(user, 10.0, 1.5)
-        bleedingEffect.amount = 2.0
-        bleedingEffect.start(user)
 
         return true
     }

@@ -19,18 +19,17 @@ class GameItemManager {
         private val OFFHAND = ConfigUtil.getConfig("offhand")
     }
 
-    fun add(user: User, gameName: String, type: ItemType) {
+    fun add(user: User, gameName: String, type: ItemType, isPickup: Boolean) {
         val gameItem = create(gameName, type) ?: throw RuntimeException("Illegal gameName")
 
         user.addUncheckedItem(gameItem, type)
 
-        user.player.inventory.addItem(gameItem.itemStack)
+        if (!isPickup) user.player.inventory.addItem(gameItem.itemStack)
         user.update()
     }
 
     fun remove(user: User, itemStack: ItemStack, isDrop: Boolean) {
         val gameName = GameItemUtil.getGameName(itemStack) ?: return
-        val itemType = GameItemUtil.getItemType(gameName) ?: return
 
         val findGameItem = user.findGameItem(gameName, itemStack)
         if (findGameItem != null) user.removeUncheckedItem(findGameItem)
@@ -47,7 +46,7 @@ class GameItemManager {
         user.update()
     }
 
-    fun create(gameName: String, type: ItemType): GameItem? {
+    private fun create(gameName: String, type: ItemType): GameItem? {
         if (!inConfig(gameName, type)) return null
 
         val itemSection = getConfig(type).getConfigurationSection(gameName)

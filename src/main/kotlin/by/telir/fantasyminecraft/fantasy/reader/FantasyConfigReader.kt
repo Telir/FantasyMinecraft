@@ -9,14 +9,16 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.GameAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.damage.type.DamageType
+import by.telir.fantasyminecraft.fantasy.game.effect.subeffect.BleedingEffect
+import by.telir.fantasyminecraft.fantasy.game.effect.subeffect.SlownessEffect
 import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.*
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import org.bukkit.configuration.ConfigurationSection
 
 class FantasyConfigReader(private val section: ConfigurationSection) {
-    fun checkForProperties(): MutableMap<GamePropertyType, GameProperty> {
-        val properties = HashMap<GamePropertyType, GameProperty>()
+    fun checkForProperties(): MutableMap<PropertyType, GameProperty> {
+        val properties = HashMap<PropertyType, GameProperty>()
 
         if (!section.contains("property")) return properties
         val section = section.getConfigurationSection("property")
@@ -83,6 +85,35 @@ class FantasyConfigReader(private val section: ConfigurationSection) {
                     gameProperty.amount = section.getDouble("returnDamage.amount")
                     gameProperty.percent = section.getDouble("returnDamage.value")
                     gameProperty.isReflect = section.getBoolean("returnDamage.isReflect")
+                    properties[gameProperty.type] = gameProperty
+                }
+
+                "bleedingHit" -> {
+                    val gameProperty =
+                        HitEffectProperty(section.getDouble("bleedingHit.chance", 1.0))
+                    val bleedingEffect = BleedingEffect(
+                        section.getDouble("bleedingHit.duration"),
+                        section.getDouble("bleedingHit.period")
+                    ).apply {
+                        amount = section.getDouble("bleedingHit.amount")
+                        value = section.getDouble("bleedingHit.value")
+                    }
+                    gameProperty.effect = bleedingEffect
+
+                    properties[gameProperty.type] = gameProperty
+                }
+
+                "slownessHit" -> {
+                    val gameProperty =
+                        HitEffectProperty(section.getDouble("slownessHit.chance", 1.0))
+                    val slownessEffect = SlownessEffect(
+                        section.getDouble("slownessHit.duration"),
+                    ).apply {
+                        amount = section.getDouble("slownessHit.amount")
+                        value = section.getDouble("slownessHit.value")
+                    }
+                    gameProperty.effect = slownessEffect
+
                     properties[gameProperty.type] = gameProperty
                 }
             }

@@ -2,16 +2,14 @@ package by.telir.fantasyminecraft.fantasy.util.item.dye
 
 import org.bukkit.inventory.ItemStack
 
-class ColoredItemUtil {
-    companion object {
-        fun setColor(itemStack: ItemStack, itemColor: ItemColor, isBlock: Boolean): ItemStack {
-            if (isBlock) {
-                itemStack.durability = itemColor.blockColor
-                return itemStack
-            } else {
-                itemStack.durability = itemColor.dyeColor
-                return itemStack
-            }
+object ColoredItemUtil {
+    fun setColor(itemStack: ItemStack, itemColor: ItemColor, isBlock: Boolean): ItemStack {
+        if (isBlock) {
+            itemStack.durability = itemColor.blockColor
+            return itemStack
+        } else {
+            itemStack.durability = itemColor.dyeColor
+            return itemStack
         }
     }
 

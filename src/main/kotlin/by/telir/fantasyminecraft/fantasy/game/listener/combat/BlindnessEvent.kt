@@ -2,7 +2,7 @@ package by.telir.fantasyminecraft.fantasy.game.listener.combat
 
 import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.BlindnessProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -17,7 +17,7 @@ class BlindnessEvent : Listener {
         var blindnessChance = 1.0
 
         val user = UserUtil.find(defender.uniqueId) ?: return
-        val propertyType = GamePropertyType.BLINDNESS
+        val propertyType = PropertyType.BLINDNESS
 
         val gameItems = user.getGameItems()
         gameItems.forEach {

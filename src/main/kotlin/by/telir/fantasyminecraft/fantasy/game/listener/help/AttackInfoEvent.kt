@@ -18,7 +18,7 @@ class AttackInfoEvent: Listener {
     }
 
     var attackCooldown: Double = 0.0
-    var isCrit: Boolean = false
+//    var isCrit: Boolean = false
 
     @EventHandler
     fun onEntityDamageByEntity(e: EntityDamageByEntityEvent) {
@@ -29,7 +29,7 @@ class AttackInfoEvent: Listener {
         val damageIfCrit: Double = MathUtil.round(maxDamage * 1.5, 2)
 
         if (damage == damageIfCrit) {
-            isCrit = true
+//            isCrit = true
             attackCooldown = 1.0
             return
         }

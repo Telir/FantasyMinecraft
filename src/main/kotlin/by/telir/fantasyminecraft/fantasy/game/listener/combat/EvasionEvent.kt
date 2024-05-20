@@ -2,7 +2,7 @@ package by.telir.fantasyminecraft.fantasy.game.listener.combat
 
 import by.telir.fantasyminecraft.fantasy.game.listener.util.EventUtil
 import by.telir.fantasyminecraft.fantasy.game.property.subproperty.EvasionProperty
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -19,7 +19,7 @@ class EvasionEvent: Listener {
         var evasionChance = 1.0
 
         val user = UserUtil.find(damager.uniqueId) ?: return
-        val propertyType = GamePropertyType.EVASION
+        val propertyType = PropertyType.EVASION
 
         val gameItems = user.getGameItems()
         gameItems.forEach {

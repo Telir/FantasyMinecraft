@@ -4,14 +4,14 @@ import by.telir.fantasyminecraft.fantasy.command.AttributeCommand
 import by.telir.fantasyminecraft.fantasy.command.DebugCommand
 import by.telir.fantasyminecraft.fantasy.command.EffectCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
+import by.telir.fantasyminecraft.fantasy.game.listener.active.ActiveUseEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.DropGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.InventoryDropInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.regen.HealthRegenEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.AntiHungerEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.MoveGameItemEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.UntouchableItemEvent
+import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.*
+import by.telir.fantasyminecraft.fantasy.game.showhealth.listener.ShowHealthEvent
+import by.telir.fantasyminecraft.fantasy.game.showhealth.manager.ShowHealthManager
 import by.telir.fantasyminecraft.fantasy.game.user.User
 import by.telir.fantasyminecraft.fantasy.game.user.listener.RegisterUserListener
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
@@ -30,6 +30,7 @@ class FantasyMinecraft : JavaPlugin() {
     }
 
     val users = mutableMapOf<UUID, User>()
+    val showHealthManager = ShowHealthManager()
 
     override fun onLoad() {
         instance = this
@@ -38,6 +39,9 @@ class FantasyMinecraft : JavaPlugin() {
     override fun onEnable() {
         UserUtil.create(*Bukkit.getOnlinePlayers().map { it.uniqueId }.toTypedArray())
         UserUtil.runManaRegen()
+
+        showHealthManager.setupBelow()
+        Bukkit.getOnlinePlayers().forEach { showHealthManager.updateHealthbarBelow(it) }
 
         //region Commands
         executeCommand("rc", ReloadCommand())
@@ -66,12 +70,15 @@ class FantasyMinecraft : JavaPlugin() {
         registerEvents(ModifyOutDamageEvent())
         registerEvents(ReturnDamageEvent())
         registerEvents(ModifyIncDamageEvent())
+        registerEvents(HitEffectEvent())
 
         registerEvents(LifestealEvent())
         //endregion
 
-        //region Heal event
+        //region Other events
         registerEvents(HealthRegenEvent())
+        registerEvents(ActiveUseEvent())
+        registerEvents(ShowHealthEvent())
         //endregion
 
         //region Restriction events
@@ -79,18 +86,20 @@ class FantasyMinecraft : JavaPlugin() {
         registerEvents(MoveGameItemEvent())
         registerEvents(UntouchableItemEvent())
         registerEvents(DropGameItemEvent())
+        registerEvents(PickupGameItemEvent())
         //endregion
     }
 
     override fun onDisable() {
-
+        showHealthManager.removeBelow()
+        server.scoreboardManager.mainScoreboard.teams.forEach { it.unregister() }
     }
 
-    fun registerEvents(listener: Listener) {
+    private fun registerEvents(listener: Listener) {
         server.pluginManager.registerEvents(listener, this)
     }
 
-    fun executeCommand(commandName: String, executor: CommandExecutor) {
+    private fun executeCommand(commandName: String, executor: CommandExecutor) {
         getCommand(commandName).executor = executor
     }
 }

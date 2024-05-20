@@ -23,7 +23,5 @@ class DropGameItemEvent : Listener {
         if (!GameItemUtil.isGameItem(itemStack)) return
 
         GameItemManager().remove(UserUtil.find(e.player.uniqueId)!!, itemStack, true)
-        e.itemDrop.remove()
-
     }
 }

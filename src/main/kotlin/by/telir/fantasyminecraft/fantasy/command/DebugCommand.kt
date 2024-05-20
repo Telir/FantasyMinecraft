@@ -2,6 +2,7 @@ package by.telir.fantasyminecraft.fantasy.command
 
 import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
+import by.telir.fantasyminecraft.pluginutil.nms.player.NMSPlayer
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -24,11 +25,14 @@ class DebugCommand : TabExecutor {
             null -> return false
             "users" -> {
                 player.sendMessage(UserUtil.users().toString())
-                return true
+            }
+            "test" -> {
+                NMSPlayer(player).setPlayerName(player.displayName)
             }
 
             else -> return false
         }
+        return true
     }
 
     override fun onTabComplete(

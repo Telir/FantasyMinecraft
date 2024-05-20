@@ -10,7 +10,7 @@ import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
 import by.telir.fantasyminecraft.fantasy.game.user.User
 import org.bukkit.entity.LivingEntity
 
-class SpeedEffect(private val duration: Double) : Effect(EffectType.SPEED) {
+class SlownessEffect(private val duration: Double) : Effect(EffectType.SLOWNESS) {
     var amount = 0.0
     var value = 0.0
 
@@ -21,10 +21,10 @@ class SpeedEffect(private val duration: Double) : Effect(EffectType.SPEED) {
         createEffectManager = CreateEffectManager(livingEntity, this)
 
         if (amount != 0.0) attributeChanges[AttributeType.MOVEMENT_SPEED] =
-            AttributeModifier("speedEffect", amount, OperationType.ADD, false)
+            AttributeModifier("slownessEffect", -amount, OperationType.ADD, false)
 
         if (value != 0.0) attributeChanges[AttributeType.MOVEMENT_SPEED] =
-            AttributeModifier("speedEffect", value, OperationType.SCALAR, false)
+            AttributeModifier("slownessEffect", (1 - value), OperationType.SCALAR, false)
 
         createEffectManager.start(duration)
     }

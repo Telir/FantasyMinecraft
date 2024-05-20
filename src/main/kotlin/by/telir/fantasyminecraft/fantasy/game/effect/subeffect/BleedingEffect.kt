@@ -1,37 +1,37 @@
 package by.telir.fantasyminecraft.fantasy.game.effect.subeffect
 
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
-import by.telir.fantasyminecraft.fantasy.game.effect.manager.PeriodEffectManager
-import by.telir.fantasyminecraft.fantasy.game.effect.manager.PeriodEffectManager.PeriodType
+import by.telir.fantasyminecraft.fantasy.game.effect.manager.CreateEffectManager
 import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
-import by.telir.fantasyminecraft.fantasy.game.user.User
+import org.bukkit.entity.LivingEntity
 
-class BleedingEffect(user: User, private val duration: Double, private val period: Double) : Effect(EffectType.BLEEDING) {
+class BleedingEffect(private val duration: Double, private val period: Double) : Effect(EffectType.BLEEDING) {
     var amount = 0.0
-    var percent = 0.0
+    var value = 0.0
 
-    private lateinit var periodEffectManager: PeriodEffectManager
+    private lateinit var effectManager: CreateEffectManager
 
-    override fun start(user: User) {
-        periodEffectManager = PeriodEffectManager(user, PeriodType.CHANGE_HEALTH)
-        periodEffectManager.amount = -amount
-        periodEffectManager.percent = -percent
+    override fun start(livingEntity: LivingEntity) {
+        effectManager = CreateEffectManager(livingEntity, this)
+        effectManager.amount = -amount
+        effectManager.percent = -value
+        effectManager.period = period
 
-        periodEffectManager.start(duration, period)
+        effectManager.start(duration)
     }
 
     override fun forceStop() {
-        periodEffectManager.stop()
+        effectManager.stop()
     }
 
 
     override val state: EffectState
-        get() = periodEffectManager.effectState
+        get() = effectManager.effectState
 
     override var currentDuration: Double
-        get() = periodEffectManager.duration
+        get() = effectManager.duration
         set(value) {
-            periodEffectManager.duration = value
+            effectManager.duration = value
         }
 }

@@ -1,10 +1,10 @@
 package by.telir.fantasyminecraft.fantasy.game.property
 
-import by.telir.fantasyminecraft.fantasy.game.property.type.GamePropertyType
+import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
 import by.telir.fantasyminecraft.fantasy.util.pseudorandom.PseudoRandomUtil
 
 abstract class GameProperty(
-    val type: GamePropertyType,
+    val type: PropertyType,
     var chance: Double,
 ) {
     private var hitsWithout: Int = 0
