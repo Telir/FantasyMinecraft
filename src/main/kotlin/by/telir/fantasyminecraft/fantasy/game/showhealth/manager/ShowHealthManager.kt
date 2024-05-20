@@ -20,6 +20,7 @@ class ShowHealthManager {
     fun updateHealthbarBelow(player: Player) {
         val score: Int = ceil(player.health).toInt()
         belowOjb.getScore(player.name).score = score
+        belowOjb.getScore(player.name).score = score
     }
 
     fun removeBelow() {
