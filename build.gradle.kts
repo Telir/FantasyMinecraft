@@ -1,8 +1,6 @@
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     kotlin("jvm") version "1.9.22"
-//    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "Telir"
@@ -24,6 +22,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
     implementation("com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT")
     implementation(files("C:/Users/local-admin/.m2/repository/org/spigotmc/spigot/1.12.2-R0.1-SNAPSHOT/spigot-1.12.2-R0.1-SNAPSHOT.jar"))
