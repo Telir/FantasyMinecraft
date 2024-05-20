@@ -7,7 +7,6 @@ commands:
   rc:
     usage: /<command>
     description: "Reloading Server"
-
   user:
     usage: /<command> [args]
   attribute:
