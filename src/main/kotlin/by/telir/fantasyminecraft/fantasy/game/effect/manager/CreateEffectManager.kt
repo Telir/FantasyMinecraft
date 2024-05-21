@@ -1,6 +1,5 @@
 package by.telir.fantasyminecraft.fantasy.game.effect.manager
 
-import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.MinecraftAttribute
 import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
@@ -8,6 +7,7 @@ import by.telir.fantasyminecraft.fantasy.game.effect.status.EffectState
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType.EffectActionType
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType.PeriodEffectType
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
+import by.telir.fantasyminecraft.instance
 import org.bukkit.entity.LivingEntity
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
@@ -15,10 +15,6 @@ import java.lang.System.currentTimeMillis
 import kotlin.properties.Delegates
 
 class CreateEffectManager(private val livingEntity: LivingEntity, private val effect: Effect) {
-    companion object {
-        private val PLUGIN = FantasyMinecraft.instance
-    }
-
     private val actionType = effect.type.actionType
 
     private var stopTime: Long = 0
@@ -52,7 +48,7 @@ class CreateEffectManager(private val livingEntity: LivingEntity, private val ef
                 override fun run() {
                     stop()
                 }
-            }.runTaskLater(PLUGIN, (duration * 20).toLong())
+            }.runTaskLater(instance, (duration * 20).toLong())
         }
 
         if (actionType == EffectActionType.PERIOD) {
@@ -85,7 +81,7 @@ class CreateEffectManager(private val livingEntity: LivingEntity, private val ef
                     if (maxIterations == iterations) stop()
 
                 }
-            }.runTaskTimerAsynchronously(PLUGIN, (period * 20).toLong(), (period * 20).toLong())
+            }.runTaskTimer(instance, (period * 20).toLong(), (period * 20).toLong())
         }
     }
 

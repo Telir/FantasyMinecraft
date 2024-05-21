@@ -14,22 +14,20 @@ data class AttributeModifier(
         SCALAR
     }
 
-
     abstract class DotaModifier(val name: String) {
         companion object {
-            val CONFIG = ConfigUtil.getConfig("dotaAttribute")
+            val config = ConfigUtil.getConfig("dotaAttribute")
         }
-
 
         class StrengthModifier(name: String, val health: Double, val healthRegen: Double) : DotaModifier(name) {
             companion object {
-                val STRENGTH_CFG = CONFIG.getConfigurationSection("strength")!!
+                val strengthCfg = config.getConfigurationSection("strength")!!
             }
         }
 
         class AgilityModifier(name: String, val defense: Double, val attackSpeed: Double) : DotaModifier(name) {
             companion object {
-                val AGILITY_CFG = CONFIG.getConfigurationSection("agility")!!
+                val agilityCfg = config.getConfigurationSection("agility")!!
             }
         }
 
@@ -40,7 +38,7 @@ data class AttributeModifier(
             val magicResistance: Double
         ) : DotaModifier(name) {
             companion object {
-                val INTELLIGENCE_CFG = CONFIG.getConfigurationSection("intelligence")!!
+                val intelligenceCfg = config.getConfigurationSection("intelligence")!!
             }
         }
     }

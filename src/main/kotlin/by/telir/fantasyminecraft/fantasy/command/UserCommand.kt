@@ -45,7 +45,6 @@ class UserCommand : TabExecutor {
                         "artifact" -> ItemType.ARTIFACT
                         "weapon" -> ItemType.WEAPON
                         "consumable" -> ItemType.CONSUMABLE
-                        "offhand" -> ItemType.OFFHAND
                         else -> return false
                     }
 
@@ -88,7 +87,7 @@ class UserCommand : TabExecutor {
 
             2 -> {
                 if (args[0] == "getitem") {
-                    val returningArgs = mutableListOf("artifact", "weapon", "consumable", "offhand")
+                    val returningArgs = mutableListOf("artifact", "weapon", "consumable")
                     if (args[1].isEmpty()) return returningArgs
                     return returningArgs.filter { it.lowercase().startsWith(args[1].lowercase()) }
                 }
@@ -105,7 +104,6 @@ class UserCommand : TabExecutor {
                         "artifact" -> ItemType.ARTIFACT
                         "weapon" -> ItemType.WEAPON
                         "consumable" -> ItemType.CONSUMABLE
-                        "offhand" -> ItemType.OFFHAND
                         else -> return ArrayList()
                     }
                     val returningArgs = GameItemUtil.getNames(type)

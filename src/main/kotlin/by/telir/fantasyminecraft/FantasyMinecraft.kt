@@ -1,6 +1,7 @@
 package by.telir.fantasyminecraft
 
 import by.telir.fantasyminecraft.fantasy.command.AttributeCommand
+import by.telir.fantasyminecraft.fantasy.command.DebugCommand
 import by.telir.fantasyminecraft.fantasy.command.UserCommand
 import by.telir.fantasyminecraft.fantasy.game.listener.combat.*
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.ActiveUseEvent
@@ -8,7 +9,6 @@ import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.DropGameItemEven
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.PickupGameItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.gameitem.UntouchableItemEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.help.AttackInfoEvent
-import by.telir.fantasyminecraft.fantasy.game.listener.help.InventoryDropInfoEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.regen.HealthRegenEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.AntiHungerEvent
 import by.telir.fantasyminecraft.fantasy.game.listener.restrictions.MoveGameItemEvent
@@ -25,19 +25,15 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class FantasyMinecraft : JavaPlugin() {
-    companion object {
-        lateinit var instance: FantasyMinecraft
-    }
 
+lateinit var instance: FantasyMinecraft
+
+class FantasyMinecraft : JavaPlugin() {
     val users = mutableMapOf<UUID, User>()
     lateinit var showHealthManager: ShowHealthManager
 
-    override fun onLoad() {
-        instance = this
-    }
-
     override fun onEnable() {
+        instance = this
         showHealthManager = ShowHealthManager()
 
         UserUtil.create(*Bukkit.getOnlinePlayers().map { it.uniqueId }.toTypedArray())
@@ -50,6 +46,7 @@ class FantasyMinecraft : JavaPlugin() {
         executeCommand("rc", ReloadCommand())
         executeCommand("user", UserCommand())
         executeCommand("attribute", AttributeCommand())
+        executeCommand("debug", DebugCommand())
         //endregion
 
         //region Plugin events
@@ -59,7 +56,6 @@ class FantasyMinecraft : JavaPlugin() {
 
         //region Info events
         registerEvents(AttackInfoEvent())
-        registerEvents(InventoryDropInfoEvent())
         //endregion Info events
 
         //region Combat events

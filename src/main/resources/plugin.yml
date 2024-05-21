@@ -11,3 +11,6 @@ commands:
     usage: /<command> [args]
   attribute:
     usage: /<command> <attribute>
+  debug:
+    description: "Debug command"
+    usage: /<command> [args]

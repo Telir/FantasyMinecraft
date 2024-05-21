@@ -9,9 +9,9 @@ import by.telir.fantasyminecraft.fantasy.game.user.User
 import kotlin.math.max
 
 class ManaRestoringActive(cooldown: Double) : GameActive(cooldown, ActiveType.MANA_RESTORE) {
-    var amount: Double = 0.0
-    var percent: Double = 0.0
-    var healthCost: Double = 0.0
+    var amount = 0.0
+    var percent = 0.0
+    var healthCost = 0.0
 
     override fun use(user: User, gameItem: GameItem): ActiveResult {
         if (user.getCooldownTime(gameItem) > 0.0) return ActiveResult.ON_COOLDOWN

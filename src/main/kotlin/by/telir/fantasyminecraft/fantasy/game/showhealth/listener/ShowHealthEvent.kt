@@ -1,6 +1,6 @@
 package by.telir.fantasyminecraft.fantasy.game.showhealth.listener
 
-import by.telir.fantasyminecraft.FantasyMinecraft
+import by.telir.fantasyminecraft.instance
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -12,8 +12,7 @@ import org.bukkit.event.player.PlayerRespawnEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class ShowHealthEvent : Listener {
-    private val plugin = FantasyMinecraft.instance
-    private val showHealthManager = plugin.showHealthManager
+    private val showHealthManager = instance.showHealthManager
 
     @EventHandler
     fun onPlayerJoin(e: PlayerJoinEvent) {
@@ -27,7 +26,7 @@ class ShowHealthEvent : Listener {
             override fun run() {
                 showHealthManager.updateHealthbarBelow(player)
             }
-        }.runTaskLater(FantasyMinecraft.instance, 2)
+        }.runTaskLater(instance, 2)
     }
 
     @EventHandler

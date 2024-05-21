@@ -4,13 +4,8 @@ import org.bukkit.inventory.ItemStack
 
 object ColoredItemUtil {
     fun setColor(itemStack: ItemStack, itemColor: ItemColor, isBlock: Boolean): ItemStack {
-        if (isBlock) {
-            itemStack.durability = itemColor.blockColor
-            return itemStack
-        } else {
-            itemStack.durability = itemColor.dyeColor
-            return itemStack
-        }
+        itemStack.durability = if (isBlock) itemColor.blockColor else itemColor.dyeColor
+        return itemStack
     }
 
     enum class ItemColor(val blockColor: Short, val dyeColor: Short) {

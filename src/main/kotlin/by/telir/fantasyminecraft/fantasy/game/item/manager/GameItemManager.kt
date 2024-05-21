@@ -12,12 +12,9 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.inventory.ItemStack
 
 class GameItemManager {
-    private companion object {
-        private val ARTIFACTS = ConfigUtil.getConfig("artifacts")
-        private val WEAPONS = ConfigUtil.getConfig("weapons")
-        private val CONSUMABLES = ConfigUtil.getConfig("consumables")
-        private val OFFHAND = ConfigUtil.getConfig("offhand")
-    }
+    private val artifacts = ConfigUtil.getConfig("artifacts")
+    private val weapons = ConfigUtil.getConfig("weapons")
+    private val consumables = ConfigUtil.getConfig("consumables")
 
     fun add(user: User, gameName: String, type: ItemType, isPickup: Boolean) {
         val gameItem = create(gameName, type) ?: throw RuntimeException("Illegal gameName")
@@ -80,10 +77,9 @@ class GameItemManager {
 
     fun getConfig(type: ItemType): FileConfiguration {
         return when (type) {
-            ItemType.ARTIFACT -> ARTIFACTS
-            ItemType.WEAPON -> WEAPONS
-            ItemType.CONSUMABLE -> CONSUMABLES
-            ItemType.OFFHAND -> OFFHAND
+            ItemType.ARTIFACT -> artifacts
+            ItemType.WEAPON -> weapons
+            ItemType.CONSUMABLE -> consumables
         }
     }
 }

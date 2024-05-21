@@ -15,41 +15,19 @@ class GameAttribute(
     private var validModifiers = mutableSetOf<AttributeModifier>()
     private var modifiers = mutableListOf<AttributeModifier>()
 
-    fun getModifiers(): Set<AttributeModifier> {
-        return validModifiers
-    }
-
     fun addModifier(modifier: AttributeModifier) {
         modifiers.add(modifier)
         update()
     }
 
-    fun removeModifier(modifier: AttributeModifier) {
-        modifiers.remove(modifier)
-        update()
-    }
-
-    fun findModifier(name: String): AttributeModifier? {
+    private fun findModifier(name: String): AttributeModifier? {
         for (modifier in validModifiers) {
             if (modifier.name == name) return modifier
         }
         return null
     }
 
-    fun hasModifier(name: String): Boolean {
-        for (modifier in validModifiers) {
-            if (modifier.name == name) return true
-        }
-        return false
-    }
-
-    fun mergeModifiers(gameAttribute: GameAttribute) {
-        if (gameAttribute.attributeType != this.attributeType) throw IllegalArgumentException("Different types")
-        modifiers.addAll(gameAttribute.modifiers)
-        update()
-    }
-
-    fun update() {
+    private fun update() {
         updateModifiers()
 
         var add = 0.0

@@ -1,0 +1,16 @@
+warrior:
+  attribute:
+    damage: 1
+    attackSpeed: 4.05
+    moveSpeed: 0.1
+    defense: 1
+    toughness: 0
+    magicResistance: 0.25
+    health: 20
+    healthRegen: 1
+    mana: 10
+    manaRegen: 0.2
+  property:
+    crit:
+      chance: 0.3
+      value: 1.7

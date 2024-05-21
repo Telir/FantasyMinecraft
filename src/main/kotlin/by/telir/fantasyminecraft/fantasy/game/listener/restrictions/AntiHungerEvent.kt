@@ -1,6 +1,6 @@
 package by.telir.fantasyminecraft.fantasy.game.listener.restrictions
 
-import by.telir.fantasyminecraft.FantasyMinecraft
+import by.telir.fantasyminecraft.instance
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -26,6 +26,6 @@ class AntiHungerEvent : Listener {
             override fun run() {
                 player.saturation = 0F
             }
-        }.runTaskLater(FantasyMinecraft.instance, 1)
+        }.runTaskLater(instance, 1)
     }
 }

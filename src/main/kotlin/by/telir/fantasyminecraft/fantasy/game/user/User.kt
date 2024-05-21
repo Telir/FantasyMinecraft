@@ -5,8 +5,11 @@ import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifi
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.DotaModifier.*
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier.OperationType
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType.*
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute
-import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.*
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.AGILITY
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.INTELLIGENCE
+import by.telir.fantasyminecraft.fantasy.game.attribute.type.DotaAttribute.STRENGTH
 import by.telir.fantasyminecraft.fantasy.game.attribute.util.AttributeUtil
 import by.telir.fantasyminecraft.fantasy.game.effect.Effect
 import by.telir.fantasyminecraft.fantasy.game.effect.type.EffectType
@@ -36,15 +39,24 @@ data class User(val uuid: UUID) {
     var health: Double
         get() = player.health
         set(value) {
-            player.health = min(max(0.0, value), attributes[AttributeType.HEALTH]!!.finalValue)
+            player.health = min(max(0.0, value), attributes[HEALTH]!!.finalValue)
         }
 
     var mana: Double = 0.0
         set(value) {
-            min(max(0.0, value), attributes[AttributeType.MANA]!!.finalValue)
+            field = min(max(0.0, value), attributes[MANA]!!.finalValue)
         }
 
+    private var oldHealthPercent = 0.0
+    private var oldManaPercent = 0.0
+
     fun update() {
+        val maxHealth = attributes[HEALTH]!!.finalValue
+        val maxMana = attributes[MANA]!!.finalValue
+
+        oldHealthPercent = health / maxHealth
+        oldManaPercent = if (maxMana == 0.0) 1.0 else mana / maxMana
+
         createPlayerAttributes()
         createPlayerProperties()
         updateHero()
@@ -52,6 +64,9 @@ data class User(val uuid: UUID) {
         updateEffects()
         updateDotaAttributes()
         updateMinecraftAttributes()
+
+        health = attributes[HEALTH]!!.finalValue * oldHealthPercent
+        mana = attributes[MANA]!!.finalValue * oldManaPercent
     }
 
     private fun updateHero() {
@@ -61,6 +76,7 @@ data class User(val uuid: UUID) {
         }
         properties.putAll(hero!!.properties)
         attributes.putAll(hero!!.attributes)
+
         mainAttribute = hero!!.mainAttribute
     }
 
@@ -81,15 +97,6 @@ data class User(val uuid: UUID) {
                         }
                     }
 
-                    ItemType.OFFHAND -> {
-                        val itemInOffHand = this.player.inventory.itemInOffHand
-                        if (!uncheckedGameItems[type].isNullOrEmpty()) {
-                            uncheckedGameItems[type]?.forEach {
-                                if (it.itemStack == itemInOffHand) gameItems[type] = mutableListOf(it)
-                            }
-                        }
-                    }
-
                     else -> {}
                 }
             }
@@ -101,21 +108,26 @@ data class User(val uuid: UUID) {
                 for (attributeType in gameItem.modifiers.keys) {
                     if (itemType == ItemType.WEAPON) {
                         when (attributeType) {
-                            AttributeType.DAMAGE -> {
+                            DAMAGE -> {
                                 val attributeModifier = gameItem.modifiers[attributeType]!!.copy()
                                 attributeModifier.amount -= 1
-                                attributes[attributeType]!!.addModifier(attributeModifier)
+                                addAttributeModifier(attributeType, attributeModifier)
                             }
 
-                            AttributeType.ATTACK_SPEED -> {
+                            ATTACK_SPEED -> {
                                 val attributeModifier = gameItem.modifiers[attributeType]!!.copy()
                                 attributeModifier.amount -= 4
-                                attributes[attributeType]!!.addModifier(attributeModifier)
+                                addAttributeModifier(attributeType, attributeModifier)
                             }
 
                             else -> {}
                         }
-                    } else repeat(gameItem.amount) { attributes[attributeType]!!.addModifier(gameItem.modifiers[attributeType]!!) }
+                    } else repeat(gameItem.amount) {
+                        addAttributeModifier(
+                            attributeType,
+                            gameItem.modifiers[attributeType]!!
+                        )
+                    }
                 }
             }
         }
@@ -123,9 +135,7 @@ data class User(val uuid: UUID) {
 
     private fun updateEffects() {
         getActiveEffects().forEach { effect ->
-            effect.attributeChanges.keys.forEach {
-                attributes[it]!!.addModifier(effect.attributeChanges[it]!!)
-            }
+            effect.attributeChanges.keys.forEach { addAttributeModifier(it, effect.attributeChanges[it]!!) }
         }
     }
 
@@ -153,18 +163,14 @@ data class User(val uuid: UUID) {
                         val strengthModifier = STRENGTH.dotaModifier as StrengthModifier
 
                         if (mainAttribute == HeroAttribute.STRENGTH) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                defaultDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, defaultDamageModifier)
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                universalDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, universalDamageModifier)
                         }
 
-                        attributes[AttributeType.HEALTH]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            HEALTH, AttributeModifier(
                                 strengthModifier.name,
                                 strengthModifier.health * round(finalValue),
                                 OperationType.ADD,
@@ -172,8 +178,8 @@ data class User(val uuid: UUID) {
                             )
                         )
 
-                        attributes[AttributeType.HEALTH_REGEN]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            HEALTH_REGEN, AttributeModifier(
                                 strengthModifier.name,
                                 strengthModifier.healthRegen * round(finalValue),
                                 OperationType.ADD,
@@ -186,18 +192,14 @@ data class User(val uuid: UUID) {
                         val agilityModifier = AGILITY.dotaModifier as AgilityModifier
 
                         if (mainAttribute == HeroAttribute.AGILITY) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                defaultDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, defaultDamageModifier)
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                universalDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, universalDamageModifier)
                         }
 
-                        attributes[AttributeType.DEFENSE]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            DEFENSE, AttributeModifier(
                                 agilityModifier.name,
                                 agilityModifier.defense * round(finalValue),
                                 OperationType.ADD,
@@ -205,8 +207,8 @@ data class User(val uuid: UUID) {
                             )
                         )
 
-                        attributes[AttributeType.ATTACK_SPEED]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            ATTACK_SPEED, AttributeModifier(
                                 agilityModifier.name,
                                 agilityModifier.attackSpeed * round(finalValue),
                                 OperationType.ADD,
@@ -220,18 +222,14 @@ data class User(val uuid: UUID) {
                         val intelligenceModifier = INTELLIGENCE.dotaModifier as IntelligenceModifier
 
                         if (mainAttribute == HeroAttribute.INTELLIGENCE) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                defaultDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, defaultDamageModifier)
                         }
                         if (mainAttribute == HeroAttribute.UNIVERSAL) {
-                            attributes[AttributeType.DAMAGE]!!.addModifier(
-                                universalDamageModifier
-                            )
+                            addAttributeModifier(DAMAGE, universalDamageModifier)
                         }
 
-                        attributes[AttributeType.MANA]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            MANA, AttributeModifier(
                                 intelligenceModifier.name,
                                 intelligenceModifier.mana * round(finalValue),
                                 OperationType.ADD,
@@ -239,8 +237,8 @@ data class User(val uuid: UUID) {
                             )
                         )
 
-                        attributes[AttributeType.MANA_REGEN]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            MANA_REGEN, AttributeModifier(
                                 intelligenceModifier.name,
                                 intelligenceModifier.manaRegen * round(finalValue),
                                 OperationType.ADD,
@@ -248,8 +246,8 @@ data class User(val uuid: UUID) {
                             )
                         )
 
-                        attributes[AttributeType.MAGIC_RESISTANCE]!!.addModifier(
-                            AttributeModifier(
+                        addAttributeModifier(
+                            MAGIC_RESISTANCE, AttributeModifier(
                                 intelligenceModifier.name,
                                 intelligenceModifier.magicResistance * round(finalValue),
                                 OperationType.ADD,
@@ -325,6 +323,19 @@ data class User(val uuid: UUID) {
     val attributes = mutableMapOf<AttributeType, GameAttribute>()
     val properties = mutableMapOf<PropertyType, GameProperty>()
 
+    private fun addAttributeModifier(attributeType: AttributeType, modifier: AttributeModifier) {
+        var percentBefore = 0.0
+        if (attributeType == HEALTH) percentBefore = health / attributes[HEALTH]!!.finalValue
+        if (attributeType == MANA) percentBefore =
+            if (attributes[MANA]!!.finalValue > 0) mana / attributes[MANA]!!.finalValue else 0.0
+
+        attributes[attributeType]!!.addModifier(modifier)
+
+        if (attributeType == HEALTH) health =
+            attributes[HEALTH]!!.finalValue * percentBefore
+        if (attributeType == MANA) mana = attributes[MANA]!!.finalValue * percentBefore
+    }
+
     val effects = mutableMapOf<EffectType, MutableSet<Effect>>()
 
     private fun getActiveEffects(): Set<Effect> {
@@ -373,6 +384,8 @@ data class User(val uuid: UUID) {
     }
 
     init {
+        createPlayerAttributes()
+        createPlayerProperties()
         update()
     }
 }

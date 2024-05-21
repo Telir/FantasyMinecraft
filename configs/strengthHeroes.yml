@@ -1,0 +1,16 @@
+tank:
+  attribute:
+    damage: 1.5
+    attackSpeed: 4.05
+    moveSpeed: 0.11
+    defense: 2
+    toughness: 0
+    magicResistance: 0.25
+    health: 25
+    healthRegen: 1.25
+    mana: 5
+    manaRegen: 0.125
+  property:
+    modifyInc:
+      chance: 0.5
+      value: 0.15

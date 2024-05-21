@@ -1,19 +1,15 @@
 package by.telir.fantasyminecraft.fantasy.game.active.manager
 
-import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.attribute.modifier.AttributeModifier
 import by.telir.fantasyminecraft.fantasy.game.attribute.type.AttributeType
 import by.telir.fantasyminecraft.fantasy.game.item.GameItem
 import by.telir.fantasyminecraft.fantasy.game.property.GameProperty
 import by.telir.fantasyminecraft.fantasy.game.property.type.PropertyType
+import by.telir.fantasyminecraft.instance
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
 class ActiveManager(private var gameItem: GameItem) {
-    companion object {
-        private val PLUGIN = FantasyMinecraft.instance
-    }
-
     val changedProperties = mutableMapOf<PropertyType, GameProperty>()
     val changedModifiers = mutableMapOf<AttributeType, AttributeModifier>()
 
@@ -54,7 +50,7 @@ class ActiveManager(private var gameItem: GameItem) {
                 stop()
             }
 
-        }.runTaskLater(PLUGIN, (duration * 20).toLong())
+        }.runTaskLater(instance, (duration * 20).toLong())
 
     }
 }

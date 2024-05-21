@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "Telir"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.1-BETA"
 description = "Fantasy Minecraft!"
 
 
@@ -47,7 +47,7 @@ tasks {
 
     val copyJar by creating(Copy::class) {
         dependsOn(build)
-        val outputJarFile = layout.buildDirectory.file("libs/FantasyMinecraft-${project.version}.jar").get().asFile
+        val outputJarFile = layout.buildDirectory.file("libs/${project.name}-${project.version}.jar").get().asFile
         from(outputJarFile)
         into("C:/Users/local-admin/Desktop/MPD2/server/plugins/")
     }

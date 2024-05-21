@@ -1,9 +1,9 @@
 package by.telir.fantasyminecraft.fantasy.game.listener.restrictions
 
-import by.telir.fantasyminecraft.FantasyMinecraft
 import by.telir.fantasyminecraft.fantasy.game.item.type.ItemType
 import by.telir.fantasyminecraft.fantasy.game.item.util.GameItemUtil
 import by.telir.fantasyminecraft.fantasy.game.user.util.UserUtil
+import by.telir.fantasyminecraft.instance
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -11,23 +11,9 @@ import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
-import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.scheduler.BukkitRunnable
 
 class MoveGameItemEvent : Listener {
-    @EventHandler
-    fun onPlayerSwapHandItems(e: PlayerSwapHandItemsEvent) {
-        val itemStack = e.offHandItem ?: return
-        if (!GameItemUtil.hasGameName(itemStack)) return
-
-        val gameName = GameItemUtil.getGameName(itemStack)!!
-        val itemType = GameItemUtil.getItemType(gameName)
-
-        if (itemType != ItemType.OFFHAND) {
-            e.isCancelled = true
-        } else UserUtil.find(e.player.uniqueId)!!.update()
-    }
-
     @EventHandler
     fun onPlayerItemHeld(e: PlayerItemHeldEvent) {
         var isUpdate = false
@@ -56,7 +42,7 @@ class MoveGameItemEvent : Listener {
                 override fun run() {
                     UserUtil.find(e.player.uniqueId)!!.update()
                 }
-            }.runTaskLater(FantasyMinecraft.instance, 1)
+            }.runTaskLater(instance, 1)
         }
     }
 
@@ -108,7 +94,7 @@ class MoveGameItemEvent : Listener {
                 if (itemType == ItemType.WEAPON) isUpdate = true
                 if (isUpdate) user.update()
             }
-        }.runTaskLater(FantasyMinecraft.instance, 1)
+        }.runTaskLater(instance, 1)
     }
 
     @EventHandler

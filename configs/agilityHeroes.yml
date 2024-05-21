@@ -1,0 +1,15 @@
+assassin:
+  attribute:
+    damage: 1.5
+    attackSpeed: 4.05
+    moveSpeed: 0.11
+    defense: 1
+    toughness: 0
+    magicResistance: 0.25
+    health: 15
+    healthRegen: 1
+    mana: 10
+    manaRegen: 0.25
+  property:
+    evasion:
+      chance: 0.2

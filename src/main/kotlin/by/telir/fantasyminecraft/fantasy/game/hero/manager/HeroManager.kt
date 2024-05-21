@@ -8,12 +8,10 @@ import by.telir.fantasyminecraft.pluginutil.config.ConfigUtil
 import org.bukkit.configuration.file.FileConfiguration
 
 class HeroManager {
-    companion object {
-        private val STRENGTH = ConfigUtil.getConfig("strengthHeroes")
-        private val AGILITY = ConfigUtil.getConfig("agilityHeroes")
-        private val INTELLIGENCE = ConfigUtil.getConfig("intelligenceHeroes")
-        private val UNIVERSAL = ConfigUtil.getConfig("universalHeroes")
-    }
+    private val strength = ConfigUtil.getConfig("strengthHeroes")
+    private val agility = ConfigUtil.getConfig("agilityHeroes")
+    private val intelligence = ConfigUtil.getConfig("intelligenceHeroes")
+    private val universal = ConfigUtil.getConfig("universalHeroes")
 
     fun select(user: User, gameName: String, heroAttribute: HeroAttribute) {
         val hero = createHero(gameName, heroAttribute) ?: throw RuntimeException("Illegal gameName")
@@ -39,10 +37,10 @@ class HeroManager {
 
     fun getConfig(heroAttribute: HeroAttribute): FileConfiguration {
         return when (heroAttribute) {
-            HeroAttribute.STRENGTH -> STRENGTH
-            HeroAttribute.AGILITY -> AGILITY
-            HeroAttribute.INTELLIGENCE -> INTELLIGENCE
-            HeroAttribute.UNIVERSAL -> UNIVERSAL
+            HeroAttribute.STRENGTH -> strength
+            HeroAttribute.AGILITY -> agility
+            HeroAttribute.INTELLIGENCE -> intelligence
+            HeroAttribute.UNIVERSAL -> universal
         }
     }
 }

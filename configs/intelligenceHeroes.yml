@@ -1,0 +1,12 @@
+mage:
+  attribute:
+    damage: 0.5
+    attackSpeed: 4
+    moveSpeed: 0.085
+    defense: 0
+    toughness: 0
+    magicResistance: 0.3
+    health: 10
+    healthRegen: 0.75
+    mana: 20
+    manaRegen: 0.5

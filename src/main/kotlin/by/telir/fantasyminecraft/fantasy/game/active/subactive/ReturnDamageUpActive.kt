@@ -11,10 +11,10 @@ import by.telir.fantasyminecraft.fantasy.game.user.User
 
 class ReturnDamageUpActive(cooldown: Double) : GameActive(cooldown, ActiveType.RETURN_DAMAGE_UP) {
     lateinit var newProperty: ReturnDamageProperty
-    var duration: Double = 0.0
+    var duration = 0.0
 
-    var manaCost: Double = 0.0
-    var healthCost: Double = 0.0
+    var manaCost = 0.0
+    var healthCost = 0.0
 
     override fun use(user: User, gameItem: GameItem): ActiveResult {
         if (user.health - healthCost < 0.0) return ActiveResult.NOT_ENOUGH_HEALTH

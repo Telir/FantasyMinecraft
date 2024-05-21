@@ -5,6 +5,12 @@ gradle
 !**/src/main/**/build/
 !**/src/test/**/build/
 .idea
+.gitignore
+settings.gradle.kts
+build.gradle.kts
+gradle.properties
+gradlew.bat
+gradlew
 
 ### IntelliJ IDEA ###
 *.iws
